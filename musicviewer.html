@@ -42,6 +42,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>ID</th>
+                    <th>Artist</th>
                     <th>Title</th>
                     <th>Minutes</th>
                     <th>Year</th>
@@ -65,7 +66,7 @@
 
         <div class="mb-3">
             <label for="artistInput" class="form-label">Artist</label>
-            <input id="titleInput" type="text" name="title" class="form-control" />
+            <input id="titleInput" type="text" name="artist" class="form-control" />
     
         <div class="mb-3">
             <label for="titleInput" class="form-label">Title</label>
@@ -156,7 +157,7 @@
         function doCreate() {
             var form = document.getElementById('createUpdateForm');
 
-            var mousic = {}
+            var music = {}
 
             music.title = form.querySelector('input[name="title"]').value;
             music.minutes = form.querySelector('input[name="minutes"]').value;
@@ -222,6 +223,7 @@
             var form = document.getElementById('createUpdateForm');
 
             form.querySelector('input[name="id"]').value = '';
+            form.querySelector('input[name="artist"]').value = '';
             form.querySelector('input[name="title"]').value = '';
             form.querySelector('input[name="minutes"]').value = '';
             form.querySelector('input[name="year"]').value = '';
@@ -269,7 +271,7 @@
             music.minutes = form.querySelector('input[name="minutes"]').value;
             music.year = parseInt(form.querySelector('input[name="year"]').value, 10);
             music.category = form.querySelector('select[name="category"]').value;
-            console.log("Getting music from form:", JSON.stringify(muisc));
+            console.log("Getting music from form:", JSON.stringify(music));
             return music;
         }
 
