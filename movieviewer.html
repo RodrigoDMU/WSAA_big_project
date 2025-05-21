@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>View Movie</title>
+    <title>View Music</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Bootstrap Icons CDN -->
@@ -9,23 +9,22 @@
     <!-- jQuery (full version to support $.ajax) -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
-        /* Espaçamento entre os botões na tabela */
-        #movieTable button {
+        
+        #musicTable button {
             margin: 0 4px;
         }
 
-        /* Botões menores dentro da tabela */
-        #movieTable button {
+        
+        #musicTable button {
             padding: 4px 8px;
             font-size: 0.85rem;
         }
 
-        /* Espaço entre os botões de Create e Update no formulário */
+        
         #createUpdateForm span {
             margin-right: 8px;
         }
 
-        /* Tornar o título dos formulários mais elegante */
         #createUpdateForm h2 {
             margin-bottom: 1rem;
         }
@@ -34,12 +33,12 @@
 
 <body>
     <div class="container mt-4">
-        <h1 class="text-center mb-4">List of Movies</h1>
+        <h1 class="text-center mb-4">List of Musics</h1>
         <button id="showAddButton" class="btn btn-primary mb-3" onclick="showCreate()">
-            <i class="bi bi-plus-circle"></i> Add Movie
+            <i class="bi bi-plus-circle"></i> Add Music
         </button>
 
-        <table class="table table-striped" id="movieTable">
+        <table class="table table-striped" id="musicTable">
             <thead class="thead-light">
                 <tr>
                     <th>ID</th>
@@ -52,17 +51,21 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows serão adicionadas aqui -->
+             
             </tbody>
         </table>
     </div>
 
     <div id='createUpdateForm' class="container p-4" style="display: none; max-width: 600px; background: #f8f9fa; border-radius: 8px;">
         <h2 class="mb-4">
-            <span id="createLabel">Add a New Movie</span>
+            <span id="createLabel">Add a New Music</span>
             <span id="updateLabel" style="display:none;">Update</span>
         </h2>
         <input type="hidden" name="id" />
+
+        <div class="mb-3">
+            <label for="artistInput" class="form-label">Artist</label>
+            <input id="titleInput" type="text" name="title" class="form-control" />
     
         <div class="mb-3">
             <label for="titleInput" class="form-label">Title</label>
@@ -83,18 +86,20 @@
             <label for="categorySelect" class="form-label">Category</label>
             <select name="category" class="form-control" required>
                 <option value="">-- Select Category --</option>
-                <option value="Action">Action</option>
-                <option value="Animation">Animation</option>
-                <option value="Comedy">Comedy</option>
-                <option value="Crime">Crime</option>
-                <option value="Documentary">Documentary</option>
-                <option value="Drama">Drama</option>
-                <option value="Horror">Horror</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Musical">Musical</option>
-                <option value="Romance">Romance</option>
-                <option value="Sci-Fi">Sci-Fi</option>
-                <option value="Thriller">Thriller</option>
+                <option value="Action">Blues</option>
+                <option value="Animation">Classical</option>
+                <option value="Comedy">Contemporary R&B</option>
+                <option value="Crime">Country</option>
+                <option value="Documentary">Disco</option>
+                <option value="Drama">Electronic</option>
+                <option value="Horror">Gospel</option>
+                <option value="Fantasy">Hip Pop</option>
+                <option value="Musical">Jazz</option>
+                <option value="Romance">Pop</option>
+                <option value="Sci-Fi">Reggae</option>
+                <option value="Thriller">Rock</option>
+                <option value="Thriller">Soul Music</option>
+                <option value="Thriller">Others</option>
             </select>
         </div>
     
@@ -114,7 +119,7 @@
     <script>
         function showCreate() {
             document.getElementById('showAddButton').style.display = "none";
-            document.getElementById('movieTable').style.display = "none";
+            document.getElementById('musicTable').style.display = "none";
             document.getElementById('createUpdateForm').style.display = "block";
 
             document.getElementById('createLabel').style.display = "inline";
@@ -128,13 +133,13 @@
 
         function showViewAll() {
             document.getElementById('showAddButton').style.display = "inline-block";
-            document.getElementById('movieTable').style.display = "table";
+            document.getElementById('musicTable').style.display = "table";
             document.getElementById('createUpdateForm').style.display = "none";
         }
 
         function showUpdate(buttonElement) {
             document.getElementById('showAddButton').style.display = "none";
-            document.getElementById('movieTable').style.display = "none";
+            document.getElementById('musicTable').style.display = "none";
             document.getElementById('createUpdateForm').style.display = "block";
 
             document.getElementById('createLabel').style.display = "none";
@@ -144,29 +149,29 @@
             document.getElementById('doUpdateButton').style.display = "inline-block";
 
             var rowElement = buttonElement.closest('tr');
-            var movie = getMovieFromRow(rowElement);
-            populateFormWithMovie(movie);
+            var music = getMusicFromRow(rowElement);
+            populateFormWithMusic(music);
         }
 
         function doCreate() {
             var form = document.getElementById('createUpdateForm');
 
-            var movie = {}
+            var mousic = {}
 
-            movie.title = form.querySelector('input[name="title"]').value;
-            movie.minutes = form.querySelector('input[name="minutes"]').value;
-            movie.year = form.querySelector('input[name="year"]').value;
-            movie.category = form.querySelector('select[name="category"]').value;
+            music.title = form.querySelector('input[name="title"]').value;
+            music.minutes = form.querySelector('input[name="minutes"]').value;
+            music.year = form.querySelector('input[name="year"]').value;
+            music.category = form.querySelector('select[name="category"]').value;
 
-            console.log("Creating movie:", JSON.stringify(movie));
-            createMovieAjax(movie);
+            console.log("Creating music:", JSON.stringify(music));
+            createMusicAjax(music);
         }
 
         function doUpdate() {
-            var movie = getMovieFromForm();
-            var rowElement = document.getElementById(movie.id);
-            updateMovieAjax(movie);
-            setMovieInRow(rowElement, movie);
+            var music = getMusicFromForm();
+            var rowElement = document.getElementById(music.id);
+            updateMusicAjax(music);
+            setMusicInRow(rowElement, music);
 
             clearForm();
             showViewAll();
@@ -175,37 +180,40 @@
         function doDelete(buttonElement) {
             var rowElement = buttonElement.closest('tr');
             var id = rowElement.getAttribute("id");
-            deleteMovieAjax(id);
+            deleteMusicAjax(id);
             rowElement.remove();
         }
 
-        function addMovieToTable(movie) {
-            var tbody = document.querySelector('#movieTable tbody');
+        function addMusicToTable(music) {
+            var tbody = document.querySelector('#musicTable tbody');
             var rowElement = tbody.insertRow(-1);
-            rowElement.setAttribute('id', movie.id);
+            rowElement.setAttribute('id', music.id);
 
             var cell1 = rowElement.insertCell(0);
-            cell1.textContent = movie.id;
+            cell1.textContent = music.id;
 
             var cell2 = rowElement.insertCell(1);
-            cell2.textContent = movie.title;
+            cell2.textContent = music.artist;
 
             var cell3 = rowElement.insertCell(2);
-            cell3.textContent = movie.minutes;
+            cell3.textContent = music.title;
 
             var cell4 = rowElement.insertCell(3);
-            cell4.textContent = movie.year;
+            cell4.textContent = music.minutes;
 
             var cell5 = rowElement.insertCell(4);
-            cell5.textContent = movie.category;
+            cell5.textContent = music.year;
 
             var cell6 = rowElement.insertCell(5);
-            cell6.innerHTML = `<button class="btn btn-sm btn-warning text-white" onclick="showUpdate(this)">
+            cell6.textContent = music.category;
+
+            var cell7 = rowElement.insertCell(6);
+            cell7.innerHTML = `<button class="btn btn-sm btn-warning text-white" onclick="showUpdate(this)">
                                     <i class="bi bi-pencil"></i> Update
                                </button>`;
 
-            var cell7 = rowElement.insertCell(6);
-            cell7.innerHTML = `<button class="btn btn-sm btn-danger" onclick="doDelete(this)">
+            var cell8 = rowElement.insertCell(7);
+            cell8.innerHTML = `<button class="btn btn-sm btn-danger" onclick="doDelete(this)">
                                     <i class="bi bi-trash"></i> Delete
                                </button>`;
         }
@@ -221,55 +229,58 @@
             form.querySelector('input[name="id"]').disabled = false;
         }
 
-        function getMovieFromRow(rowElement) {
-            var movie = {};
-            movie.id = rowElement.getAttribute('id');
-            movie.title = rowElement.cells[1].textContent;
-            movie.minutes = rowElement.cells[2].textContent;
-            movie.year = parseInt(rowElement.cells[3].textContent, 10);
-            movie.category = rowElement.cells[4].textContent;
-            return movie;
+        function getMusicFromRow(rowElement) {
+            var music = {};
+            music.id = rowElement.getAttribute('id');
+            music.artist = rowElement.cells[1].textContent;
+            music.title = rowElement.cells[2].textContent;
+            music.minutes = rowElement.cells[3].textContent;
+            music.year = parseInt(rowElement.cells[4].textContent, 10);
+            music.category = rowElement.cells[5].textContent;
+            return music;
         }
 
-        function setMovieInRow(rowElement, movie) {
-            rowElement.cells[0].textContent = movie.id;
-            rowElement.cells[1].textContent = movie.title;
-            rowElement.cells[2].textContent = movie.minutes;
-            rowElement.cells[3].textContent = movie.year;
-            rowElement.cells[4].textContent = movie.category;
+        function setMusicInRow(rowElement, music) {
+            rowElement.cells[0].textContent = music.id;
+            rowElement.cells[1].textContent = music.artist;
+            rowElement.cells[2].textContent = music.title;
+            rowElement.cells[3].textContent = music.minutes;
+            rowElement.cells[4].textContent = music.year;
+            rowElement.cells[5].textContent = music.category;
         }
 
-        function populateFormWithMovie(movie) {
+        function populateFormWithMusic(music) {
             var form = document.getElementById('createUpdateForm');
             form.querySelector('input[name="id"]').disabled = true;
-
-            form.querySelector('input[name="id"]').value = movie.id;
-            form.querySelector('input[name="title"]').value = movie.title;
-            form.querySelector('input[name="minutes"]').value = movie.minutes;
-            form.querySelector('input[name="year"]').value = movie.year;
-            form.querySelector('select[name="category"]').value = movie.category;
+            form.querySelector('input[name="id"]').value = music.id;
+            form.querySelector('input[name="artist"]').value = music.artist;
+            form.querySelector('input[name="title"]').value = music.title;
+            form.querySelector('input[name="minutes"]').value = music.minutes;
+            form.querySelector('input[name="year"]').value = music.year;
+            form.querySelector('select[name="category"]').value = music.category;
         }
 
-        function getMovieFromForm() {
+        function getMusicFromForm() {
             var form = document.getElementById('createUpdateForm');
-            var movie = {};
-            movie.id = form.querySelector('input[name="id"]').value;
-            movie.title = form.querySelector('input[name="title"]').value;
-            movie.minutes = form.querySelector('input[name="minutes"]').value;
-            movie.year = parseInt(form.querySelector('input[name="year"]').value, 10);
-            movie.category = form.querySelector('select[name="category"]').value;
-            console.log("Getting movie from form:", JSON.stringify(movie));
-            return movie;
+            var music = {};
+            music.id = form.querySelector('input[name="id"]').value;
+            music.artist = form.querySelector('input[name="artist"]').value;
+            music.title = form.querySelector('input[name="title"]').value;
+            music.minutes = form.querySelector('input[name="minutes"]').value;
+            music.year = parseInt(form.querySelector('input[name="year"]').value, 10);
+            music.category = form.querySelector('select[name="category"]').value;
+            console.log("Getting music from form:", JSON.stringify(muisc));
+            return music;
         }
 
         function getAllAjax() {
             $.ajax({
-                url: "/movies",
+                url: "/musics",
                 method: "GET",
                 dataType: "JSON",
                 success: function (result) {
-                    for (movie of result) {
-                        addMovieToTable(movie);
+                    for (music of result) {
+                        addMusicToTable(music);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -278,16 +289,16 @@
             });
         }
 
-        function createMovieAjax(movie) {
+        function createMusicAjax(music) {
             $.ajax({
-                url: "/movies",
+                url: "/musics",
                 method: "POST",
-                data: JSON.stringify(movie),
+                data: JSON.stringify(music),
                 dataType: "JSON",
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
-                    movie.id = result.id;
-                    addMovieToTable(movie);
+                    music.id = result.id;
+                    addMusicToTable(music);
                     clearForm();
                     showViewAll();
                 },
@@ -297,15 +308,15 @@
             });
         }
 
-        function updateMovieAjax(movie) {
+        function updateMusicAjax(music) {
             $.ajax({
-                url: "/movies/" + encodeURIComponent(movie.id),
+                url: "/musics/" + encodeURIComponent(music.id),
                 method: "PUT",
-                data: JSON.stringify(movie),
+                data: JSON.stringify(music),
                 dataType: "JSON",
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
-                    // sucesso no update
+
                 },
                 error: function (xhr, status, error) {
                     console.log("error: " + status + " msg:" + error);
@@ -313,14 +324,14 @@
             });
         }
 
-        function deleteMovieAjax(id) {
+        function deleteMusicAjax(id) {
             $.ajax({
-                url: "/movies/" + encodeURIComponent(id),
+                url: "/musics/" + encodeURIComponent(id),
                 method: "DELETE",
                 dataType: "JSON",
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
-                    // sucesso no delete
+
                 },
                 error: function (xhr, status, error) {
                     console.log("error: " + status + " msg:" + error);
@@ -328,13 +339,12 @@
             });
         }
 
-        // Função para o botão Cancel
+
         function cancel() {
             clearForm();
             showViewAll();
         }
 
-        // Carrega a lista inicial de filmes
         getAllAjax();
     </script>
 </body>

@@ -2,7 +2,7 @@ import mysql.connector
 import dbconfig as cfg
 
 
-class MovieDAO:
+class MusicDAO:
     
     def __init__(self):
         self.host=       cfg.mysql['host']
@@ -28,8 +28,8 @@ class MovieDAO:
 # CRUD operations        
     def getAll(self):
         cursor = self.getcursor()
-        sql="""SELECT id, title, minutes, year, category 
-               FROM movie"""
+        sql="""SELECT id,, artist, title, minutes, year, category 
+               FROM music"""
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -41,8 +41,8 @@ class MovieDAO:
 
     def findByID(self, id):
         cursor = self.getcursor()
-        sql="""SELECT id, title, minutes, year, category 
-               FROM movie 
+        sql="""SELECT id, artist, title, minutes, year, category 
+               FROM music 
                WHERE id = %s"""
         values = (id,)
 
@@ -52,36 +52,37 @@ class MovieDAO:
         self.closeAll()
         return returnvalue
 
-    def create(self, movie):
+    def create(self, music):
         cursor = self.getcursor()
-        sql="""INSERT INTO movie (id, title, minutes, year, category) 
-               VALUES (%s, %s, %s, %s, %s)"""
+        sql="""INSERT INTO music (id,, arstis, title, minutes, year, category) 
+               VALUES (%s, %s, %s, %s, %s, %s)"""
         values = (
-            movie.get("title"),
-            movie.get("minute"),
-            movie.get("year"),
-            movie.get("category"),
+            music.get("artist"),
+            music.get("title"),
+            music.get("minute"),
+            music.get("year"),
+            music.get("category"),
         )
         cursor.execute(sql, values)
 
         self.connection.commit()
         newid = cursor.lastrowid
-        movie["id"] = newid
+        music["id"] = newid
         self.closeAll()
-        return movie
+        return music
 
 
-    def update(self, id, movie):
+    def update(self, id, music):
         cursor = self.getcursor()
-        sql = """UPDATE movie
-                SET title=%s, minutes=%s, year=%s, category=%s 
+        sql = """UPDATE music
+                SET artist=%s, title=%s, minutes=%s, year=%s, category=%s 
                 WHERE id=%s"""
-        print(f"Update movie {movie}")
+        print(f"Update music {music}")
         values = (
-            movie.get("title"),
-            movie.get("minutes"), 
-            movie.get("year"), 
-            movie.get("categoru"), 
+            music.get("title"),
+            music.get("minutes"), 
+            music.get("year"), 
+            music.get("category"), 
             id
         )
         cursor.execute(sql, values)
@@ -90,7 +91,7 @@ class MovieDAO:
         
     def delete(self, id):
         cursor = self.getcursor()
-        sql = """DELETE FROM movie 
+        sql = """DELETE FROM music 
                 WHERE id = %s"""
         values = (id,)
 
@@ -101,13 +102,13 @@ class MovieDAO:
         
 
     def convertToDictionary(self, resultLine):
-        keys=['id','title','minutes', "year", "category"]
-        movie = {}
+        keys=['id', 'artist', 'title','minutes', "year", "category"]
+        music = {}
         currentkey = 0
         for attrib in resultLine:
-            movie[keys[currentkey]] = attrib
+            music[keys[currentkey]] = attrib
             currentkey = currentkey + 1 
-        return movie
+        return music
 
         
-movieDAO = MovieDAO()
+musicDAO = MusicDAO()

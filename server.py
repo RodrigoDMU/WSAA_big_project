@@ -1,49 +1,50 @@
 from flask import Flask, jsonify, request, abort
 from flask_cors import CORS, cross_origin
-from movieDAO import movieDAO
+from musicDAO import musicDAO
 
 app = Flask (__name__, static_url_path='', static_folder='.')
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/movies')
+@app.route('/musics')
 @cross_origin()
 def getAll():
-    results = movieDAO.getAll()
+    results = musicDAO.getAll()
     return jsonify(results)
 
 
-@app.route('/movies/<int:id>')
+@app.route('/musics/<int:id>')
 @cross_origin()
 def findById(id):
-    foundMovie = movieDAO.findByID(id)
-    return jsonify(foundMovie)
+    foundMusic = musicDAO.findByID(id)
+    return jsonify(foundMusic)
 
 
-@app.route('/movies', methods=['POST'])
+@app.route('/musics', methods=['POST'])
 @cross_origin()
 def create():
     if not request.json:
         abort(400)
 
-    movie = {
+    music = {
         "title": request.json['title'],
+        "artist": request.json['artist'],
         "minutes": request.json['minutes'],
         "year": request.json['year'],
         "category": request.json['category'],
     }
 
-    new_id = movieDAO.create(movie)
-    movie['id'] = new_id
-    return jsonify(movie)
+    new_id = musicDAO.create(music)
+    music['id'] = new_id
+    return jsonify(music)
 
 
-@app.route('/movies/<int:id>', methods=['PUT'])
+@app.route('/musics/<int:id>', methods=['PUT'])
 @cross_origin()
 def update(id):
-    foundMovie = movieDAO.findByID(id)
-    if not foundMovie:
+    foundMusic = musicDAO.findByID(id)
+    if not foundMusic:
         abort(404)
 
     if not request.json:
@@ -51,23 +52,25 @@ def update(id):
 
     reqJson = request.json
 
+    if 'artist' in reqJson:
+        foundMusic['artist'] = reqJson['artist']
     if 'title' in reqJson:
-        foundMovie['title'] = reqJson['title']
+        foundMusic['title'] = reqJson['title']
     if 'minutes' in reqJson:
-        foundMovie['minutes'] = reqJson['minutes']
+        foundMusic['minutes'] = reqJson['minutes']
     if 'year' in reqJson:
-        foundMovie['year'] = reqJson['year']
+        foundMusic['year'] = reqJson['year']
     if 'category' in reqJson:
-        foundMovie['category'] = reqJson['category']
+        foundMusic['category'] = reqJson['category']
 
-    movieDAO.update(id, foundMovie)
-    return jsonify(foundMovie)
+    musicDAO.update(id, foundMusic)
+    return jsonify(foundMusic)
 
 
-@app.route('/movies/<int:id>', methods=['DELETE'])
+@app.route('/musics/<int:id>', methods=['DELETE'])
 @cross_origin()
 def delete(id):
-    movieDAO.delete(id)
+    musicDAO.delete(id)
     return jsonify({"done": True})
 
 
