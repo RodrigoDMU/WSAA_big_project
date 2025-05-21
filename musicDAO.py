@@ -5,17 +5,17 @@ import dbconfig as cfg
 class MusicDAO:
     
     def __init__(self):
-        self.host = cfg.mysql['host']
-        self.user = cfg.mysql['user']
-        self.password = cfg.mysql['password']
-        self.database = cfg.mysql['database']
+        self.host=       cfg.mysql['host']
+        self.user=       cfg.mysql['user']
+        self.password=   cfg.mysql['password']
+        self.database=   cfg.mysql['database']
 
     def getcursor(self): 
         self.connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database,
+            host = self.host,
+            user = self.user,
+            password = self.password,
+            database = self.database,
         )
         self.cursor = self.connection.cursor()
         return self.cursor
@@ -24,7 +24,7 @@ class MusicDAO:
         self.cursor.close()
         self.connection.close()
 
-    # CRUD operations        
+# CRUD operations        
     def getAll(self):
         cursor = self.getcursor()
         sql = """SELECT id, artist, title, minutes, year, category 
@@ -45,9 +45,11 @@ class MusicDAO:
         values = (id,)
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        returnvalue = self.convertToDictionary(result)
         self.closeAll()
-        return returnvalue
+        if result:
+            return self.convertToDictionary(result)
+        else:
+            return None
 
     def create(self, music):
         cursor = self.getcursor()
@@ -56,7 +58,7 @@ class MusicDAO:
         values = (
             music.get("artist"),
             music.get("title"),
-            music.get("minutes"),
+            music.get("minutes"),  # Corrigido: chave correta
             music.get("year"),
             music.get("category"),
         )
@@ -92,13 +94,12 @@ class MusicDAO:
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
-
+        
     def convertToDictionary(self, resultLine):
-        keys = ['id', 'artist', 'title', 'minutes', 'year', 'category']
+        keys = ['id', 'artist', 'title', 'minutes', "year", "category"]
         music = {}
-        if resultLine:
-            for i, key in enumerate(keys):
-                music[key] = resultLine[i]
+        for i, attrib in enumerate(resultLine):
+            music[keys[i]] = attrib
         return music
 
 
