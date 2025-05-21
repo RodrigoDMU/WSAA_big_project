@@ -28,8 +28,8 @@ def create():
         abort(400)
 
     music = {
-        "title": request.json['title'],
         "artist": request.json['artist'],
+        "title": request.json['title'],
         "minutes": request.json['minutes'],
         "year": request.json['year'],
         "category": request.json['category'],

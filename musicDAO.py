@@ -28,7 +28,7 @@ class MusicDAO:
 # CRUD operations        
     def getAll(self):
         cursor = self.getcursor()
-        sql="""SELECT id,, artist, title, minutes, year, category 
+        sql="""SELECT id, artist, title, minutes, year, category 
                FROM music"""
         cursor.execute(sql)
         results = cursor.fetchall()
