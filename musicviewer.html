@@ -38,7 +38,7 @@
     <div id="createUpdateForm" class="container p-4" style="display: none; max-width: 600px; background: #f8f9fa; border-radius: 8px;">
         <h2 class="mb-4">
             <span id="createLabel">Add a New Music</span>
-            <span id="updateLabel" style="display:none;">Update</span>
+            <span id="updateLabel" style="display:none;">Update Music</span>
         </h2>
         <input type="hidden" name="id" />
 
@@ -64,7 +64,7 @@
 
         <div class="mb-4">
             <label for="categorySelect" class="form-label">Category</label>
-            <select name="category" class="form-control" required>
+            <select id="categorySelect" name="category" class="form-control" required>
                 <option value="">-- Select Category --</option>
                 <option value="Blues">Blues</option>
                 <option value="Classical">Classical</option>
@@ -97,35 +97,29 @@
     </div>
 
     <script>
+        // Show the form to create new music
         function showCreate() {
             document.getElementById('showAddButton').style.display = "none";
             document.getElementById('musicTable').style.display = "none";
             document.getElementById('createUpdateForm').style.display = "block";
+
             document.getElementById('createLabel').style.display = "inline";
             document.getElementById('updateLabel').style.display = "none";
+
             document.getElementById('doCreateButton').style.display = "inline-block";
             document.getElementById('doUpdateButton').style.display = "none";
+
             clearForm();
         }
 
+        // Show the table and hide form
         function showViewAll() {
             document.getElementById('showAddButton').style.display = "inline-block";
             document.getElementById('musicTable').style.display = "table";
             document.getElementById('createUpdateForm').style.display = "none";
         }
 
-        function doCreate() {
-            const form = document.getElementById('createUpdateForm');
-            const music = {
-                artist: form.querySelector('input[name="artist"]').value,
-                title: form.querySelector('input[name="title"]').value,
-                minutes: form.querySelector('input[name="minutes"]').value,
-                year: parseInt(form.querySelector('input[name="year"]').value, 10),
-                category: form.querySelector('select[name="category"]').value
-            };
-            createMusicAjax(music);
-        }
-
+        // Clear form fields
         function clearForm() {
             const form = document.getElementById('createUpdateForm');
             form.querySelector('input[name="id"]').value = '';
@@ -136,10 +130,48 @@
             form.querySelector('select[name="category"]').value = '';
         }
 
+        // Populate form with music data for update
+        function populateFormWithMusic(music) {
+            const form = document.getElementById('createUpdateForm');
+            form.querySelector('input[name="id"]').value = music.id;
+            form.querySelector('input[name="artist"]').value = music.artist;
+            form.querySelector('input[name="title"]').value = music.title;
+            form.querySelector('input[name="minutes"]').value = music.minutes;
+            form.querySelector('input[name="year"]').value = music.year;
+            form.querySelector('select[name="category"]').value = music.category;
+        }
+
+        // Show update form with selected music data
+        function showUpdate(button) {
+            document.getElementById('showAddButton').style.display = "none";
+            document.getElementById('musicTable').style.display = "none";
+            document.getElementById('createUpdateForm').style.display = "block";
+
+            document.getElementById('createLabel').style.display = "none";
+            document.getElementById('updateLabel').style.display = "inline";
+
+            document.getElementById('doCreateButton').style.display = "none";
+            document.getElementById('doUpdateButton').style.display = "inline-block";
+
+            // Get the selected music data from the row
+            const row = button.closest('tr');
+            const music = {
+                id: row.id,
+                artist: row.cells[1].textContent,
+                title: row.cells[2].textContent,
+                minutes: row.cells[3].textContent,
+                year: row.cells[4].textContent,
+                category: row.cells[5].textContent
+            };
+
+            populateFormWithMusic(music);
+        }
+
+        // Add music to table
         function addMusicToTable(music) {
             const tbody = document.querySelector('#musicTable tbody');
             const row = tbody.insertRow();
-            row.setAttribute('id', music.id);
+            row.id = music.id;
 
             row.insertCell().textContent = music.id;
             row.insertCell().textContent = music.artist;
@@ -157,48 +189,126 @@
                 <i class="bi bi-trash"></i> Delete</button>`;
         }
 
-        function createMusicAjax(music) {
-            $.ajax({
-                url: "/musics",
-                method: "POST",
-                data: JSON.stringify(music),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (result) {
-                    music.id = result.id;
-                    addMusicToTable(music);
-                    clearForm();
-                    showViewAll();
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", status, error);
-                }
-            });
-        }
-
+        // AJAX: Get all musics
         function getAllAjax() {
             $.ajax({
                 url: "/musics",
                 method: "GET",
                 dataType: "json",
                 success: function (result) {
+                    const tbody = document.querySelector('#musicTable tbody');
+                    tbody.innerHTML = ''; // Clear existing rows
                     for (let music of result) {
                         addMusicToTable(music);
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error:", status, error);
+                    alert("Error fetching music list: " + error);
                 }
             });
         }
 
+        // AJAX: Create new music
+        function doCreate() {
+            const music = {
+                artist: document.querySelector('input[name="artist"]').value.trim(),
+                title: document.querySelector('input[name="title"]').value.trim(),
+                minutes: parseInt(document.querySelector('input[name="minutes"]').value),
+                year: parseInt(document.querySelector('input[name="year"]').value),
+                category: document.querySelector('select[name="category"]').value
+            };
+
+            if (!music.artist || !music.title || isNaN(music.minutes) || isNaN(music.year) || !music.category) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+
+            $.ajax({
+                url: "/musics",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(music),
+                success: function (createdMusic) {
+                    addMusicToTable(createdMusic);
+                    clearForm();
+                    showViewAll();
+                },
+                error: function (xhr, status, error) {
+                    alert("Error creating music: " + error);
+                }
+            });
+        }
+
+        // AJAX: Update existing music
+        function doUpdate() {
+            const music = {
+                id: parseInt(document.querySelector('input[name="id"]').value),
+                artist: document.querySelector('input[name="artist"]').value.trim(),
+                title: document.querySelector('input[name="title"]').value.trim(),
+                minutes: parseInt(document.querySelector('input[name="minutes"]').value),
+                year: parseInt(document.querySelector('input[name="year"]').value),
+                category: document.querySelector('select[name="category"]').value
+            };
+
+            if (!music.artist || !music.title || isNaN(music.minutes) || isNaN(music.year) || !music.category) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+
+            $.ajax({
+                url: `/musics/${music.id}`,
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(music),
+                success: function (updatedMusic) {
+                    // Update the row in the table
+                    const row = document.getElementById(updatedMusic.id);
+                    if (row) {
+                        row.cells[1].textContent = updatedMusic.artist;
+                        row.cells[2].textContent = updatedMusic.title;
+                        row.cells[3].textContent = updatedMusic.minutes;
+                        row.cells[4].textContent = updatedMusic.year;
+                        row.cells[5].textContent = updatedMusic.category;
+                    }
+                    clearForm();
+                    showViewAll();
+                },
+                error: function (xhr, status, error) {
+                    alert("Error updating music: " + error);
+                }
+            });
+        }
+
+        // AJAX: Delete music
+        function doDelete(button) {
+            if (!confirm("Are you sure you want to delete this music?")) return;
+
+            const row = button.closest('tr');
+            const musicId = row.id;
+
+            $.ajax({
+                url: `/musics/${musicId}`,
+                method: "DELETE",
+                success: function () {
+                    row.remove();
+                },
+                error: function (xhr, status, error) {
+                    alert("Error deleting music: " + error);
+                }
+            });
+        }
+
+        // Cancel and go back to table
         function cancel() {
             clearForm();
             showViewAll();
         }
 
-        // Load data on page load
-        getAllAjax();
+        // Initial fetch of musics when page loads
+        window.onload = function () {
+            getAllAjax();
+            showViewAll();
+        }
     </script>
 </body>
 
