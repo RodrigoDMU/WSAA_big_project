@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, abort
 from flask_cors import CORS, cross_origin
 from musicDAO import musicDAO
 
-app = Flask (__name__, static_url_path='', static_folder='.')
+app = Flask(__name__, static_url_path='', static_folder='.')
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -35,9 +35,9 @@ def create():
         "category": request.json['category'],
     }
 
-    new_id = musicDAO.create(music)
-    music['id'] = new_id
-    return jsonify(music)
+    # Corrigido: pega o objeto com id já atribuído
+    new_music = musicDAO.create(music)
+    return jsonify(new_music)
 
 
 @app.route('/musics/<int:id>', methods=['PUT'])
@@ -76,5 +76,3 @@ def delete(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# END

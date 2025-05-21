@@ -1,34 +1,14 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>View Music</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Bootstrap Icons CDN -->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- jQuery (full version to support $.ajax) -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <style>
-        
-        #musicTable button {
-            margin: 0 4px;
-        }
-
-        
-        #musicTable button {
-            padding: 4px 8px;
-            font-size: 0.85rem;
-        }
-
-        
-        #createUpdateForm span {
-            margin-right: 8px;
-        }
-
-        #createUpdateForm h2 {
-            margin-bottom: 1rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -51,13 +31,11 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
-             
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 
-    <div id='createUpdateForm' class="container p-4" style="display: none; max-width: 600px; background: #f8f9fa; border-radius: 8px;">
+    <div id="createUpdateForm" class="container p-4" style="display: none; max-width: 600px; background: #f8f9fa; border-radius: 8px;">
         <h2 class="mb-4">
             <span id="createLabel">Add a New Music</span>
             <span id="updateLabel" style="display:none;">Update</span>
@@ -66,44 +44,45 @@
 
         <div class="mb-3">
             <label for="artistInput" class="form-label">Artist</label>
-            <input id="titleInput" type="text" name="artist" class="form-control" />
-    
+            <input id="artistInput" type="text" name="artist" class="form-control" />
+        </div>
+
         <div class="mb-3">
             <label for="titleInput" class="form-label">Title</label>
             <input id="titleInput" type="text" name="title" class="form-control" />
         </div>
-    
+
         <div class="mb-3">
             <label for="minutesInput" class="form-label">Minutes</label>
             <input id="minutesInput" type="number" name="minutes" class="form-control" />
         </div>
-    
+
         <div class="mb-3">
             <label for="yearInput" class="form-label">Year</label>
             <input id="yearInput" type="number" name="year" class="form-control" />
         </div>
-    
+
         <div class="mb-4">
             <label for="categorySelect" class="form-label">Category</label>
             <select name="category" class="form-control" required>
                 <option value="">-- Select Category --</option>
-                <option value="Action">Blues</option>
-                <option value="Animation">Classical</option>
-                <option value="Comedy">Contemporary R&B</option>
-                <option value="Crime">Country</option>
-                <option value="Documentary">Disco</option>
-                <option value="Drama">Electronic</option>
-                <option value="Horror">Gospel</option>
-                <option value="Fantasy">Hip Pop</option>
-                <option value="Musical">Jazz</option>
-                <option value="Romance">Pop</option>
-                <option value="Sci-Fi">Reggae</option>
-                <option value="Thriller">Rock</option>
-                <option value="Thriller">Soul Music</option>
-                <option value="Thriller">Others</option>
+                <option value="Blues">Blues</option>
+                <option value="Classical">Classical</option>
+                <option value="Contemporary R&B">Contemporary R&B</option>
+                <option value="Country">Country</option>
+                <option value="Disco">Disco</option>
+                <option value="Electronic">Electronic</option>
+                <option value="Gospel">Gospel</option>
+                <option value="Hip Pop">Hip Pop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Pop">Pop</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Rock">Rock</option>
+                <option value="Soul Music">Soul Music</option>
+                <option value="Others">Others</option>
             </select>
         </div>
-    
+
         <div class="d-flex gap-3 mb-3">
             <button id="doCreateButton" class="btn btn-primary" onclick="doCreate()">
                 <i class="bi bi-plus-lg"></i> Add
@@ -116,19 +95,16 @@
             </button>
         </div>
     </div>
-    
+
     <script>
         function showCreate() {
             document.getElementById('showAddButton').style.display = "none";
             document.getElementById('musicTable').style.display = "none";
             document.getElementById('createUpdateForm').style.display = "block";
-
             document.getElementById('createLabel').style.display = "inline";
             document.getElementById('updateLabel').style.display = "none";
-
             document.getElementById('doCreateButton').style.display = "inline-block";
             document.getElementById('doUpdateButton').style.display = "none";
-
             clearForm();
         }
 
@@ -138,157 +114,47 @@
             document.getElementById('createUpdateForm').style.display = "none";
         }
 
-        function showUpdate(buttonElement) {
-            document.getElementById('showAddButton').style.display = "none";
-            document.getElementById('musicTable').style.display = "none";
-            document.getElementById('createUpdateForm').style.display = "block";
-
-            document.getElementById('createLabel').style.display = "none";
-            document.getElementById('updateLabel').style.display = "inline";
-
-            document.getElementById('doCreateButton').style.display = "none";
-            document.getElementById('doUpdateButton').style.display = "inline-block";
-
-            var rowElement = buttonElement.closest('tr');
-            var music = getMusicFromRow(rowElement);
-            populateFormWithMusic(music);
-        }
-
         function doCreate() {
-            var form = document.getElementById('createUpdateForm');
-
-            var music = {}
-
-            music.title = form.querySelector('input[name="title"]').value;
-            music.minutes = form.querySelector('input[name="minutes"]').value;
-            music.year = form.querySelector('input[name="year"]').value;
-            music.category = form.querySelector('select[name="category"]').value;
-
-            console.log("Creating music:", JSON.stringify(music));
+            const form = document.getElementById('createUpdateForm');
+            const music = {
+                artist: form.querySelector('input[name="artist"]').value,
+                title: form.querySelector('input[name="title"]').value,
+                minutes: form.querySelector('input[name="minutes"]').value,
+                year: parseInt(form.querySelector('input[name="year"]').value, 10),
+                category: form.querySelector('select[name="category"]').value
+            };
             createMusicAjax(music);
         }
 
-        function doUpdate() {
-            var music = getMusicFromForm();
-            var rowElement = document.getElementById(music.id);
-            updateMusicAjax(music);
-            setMusicInRow(rowElement, music);
-
-            clearForm();
-            showViewAll();
-        }
-
-        function doDelete(buttonElement) {
-            var rowElement = buttonElement.closest('tr');
-            var id = rowElement.getAttribute("id");
-            deleteMusicAjax(id);
-            rowElement.remove();
-        }
-
-        function addMusicToTable(music) {
-            var tbody = document.querySelector('#musicTable tbody');
-            var rowElement = tbody.insertRow(-1);
-            rowElement.setAttribute('id', music.id);
-
-            var cell1 = rowElement.insertCell(0);
-            cell1.textContent = music.id;
-
-            var cell2 = rowElement.insertCell(1);
-            cell2.textContent = music.artist;
-
-            var cell3 = rowElement.insertCell(2);
-            cell3.textContent = music.title;
-
-            var cell4 = rowElement.insertCell(3);
-            cell4.textContent = music.minutes;
-
-            var cell5 = rowElement.insertCell(4);
-            cell5.textContent = music.year;
-
-            var cell6 = rowElement.insertCell(5);
-            cell6.textContent = music.category;
-
-            var cell7 = rowElement.insertCell(6);
-            cell7.innerHTML = `<button class="btn btn-sm btn-warning text-white" onclick="showUpdate(this)">
-                                    <i class="bi bi-pencil"></i> Update
-                               </button>`;
-
-            var cell8 = rowElement.insertCell(7);
-            cell8.innerHTML = `<button class="btn btn-sm btn-danger" onclick="doDelete(this)">
-                                    <i class="bi bi-trash"></i> Delete
-                               </button>`;
-        }
-
         function clearForm() {
-            var form = document.getElementById('createUpdateForm');
-
+            const form = document.getElementById('createUpdateForm');
             form.querySelector('input[name="id"]').value = '';
             form.querySelector('input[name="artist"]').value = '';
             form.querySelector('input[name="title"]').value = '';
             form.querySelector('input[name="minutes"]').value = '';
             form.querySelector('input[name="year"]').value = '';
             form.querySelector('select[name="category"]').value = '';
-            form.querySelector('input[name="id"]').disabled = false;
         }
 
-        function getMusicFromRow(rowElement) {
-            var music = {};
-            music.id = rowElement.getAttribute('id');
-            music.artist = rowElement.cells[1].textContent;
-            music.title = rowElement.cells[2].textContent;
-            music.minutes = rowElement.cells[3].textContent;
-            music.year = parseInt(rowElement.cells[4].textContent, 10);
-            music.category = rowElement.cells[5].textContent;
-            return music;
-        }
+        function addMusicToTable(music) {
+            const tbody = document.querySelector('#musicTable tbody');
+            const row = tbody.insertRow();
+            row.setAttribute('id', music.id);
 
-        function setMusicInRow(rowElement, music) {
-            rowElement.cells[0].textContent = music.id;
-            rowElement.cells[1].textContent = music.artist;
-            rowElement.cells[2].textContent = music.title;
-            rowElement.cells[3].textContent = music.minutes;
-            rowElement.cells[4].textContent = music.year;
-            rowElement.cells[5].textContent = music.category;
-        }
+            row.insertCell().textContent = music.id;
+            row.insertCell().textContent = music.artist;
+            row.insertCell().textContent = music.title;
+            row.insertCell().textContent = music.minutes;
+            row.insertCell().textContent = music.year;
+            row.insertCell().textContent = music.category;
 
-        function populateFormWithMusic(music) {
-            var form = document.getElementById('createUpdateForm');
-            form.querySelector('input[name="id"]').disabled = true;
-            form.querySelector('input[name="id"]').value = music.id;
-            form.querySelector('input[name="artist"]').value = music.artist;
-            form.querySelector('input[name="title"]').value = music.title;
-            form.querySelector('input[name="minutes"]').value = music.minutes;
-            form.querySelector('input[name="year"]').value = music.year;
-            form.querySelector('select[name="category"]').value = music.category;
-        }
+            const updateCell = row.insertCell();
+            updateCell.innerHTML = `<button class="btn btn-sm btn-warning text-white" onclick="showUpdate(this)">
+                <i class="bi bi-pencil"></i> Update</button>`;
 
-        function getMusicFromForm() {
-            var form = document.getElementById('createUpdateForm');
-            var music = {};
-            music.id = form.querySelector('input[name="id"]').value;
-            music.artist = form.querySelector('input[name="artist"]').value;
-            music.title = form.querySelector('input[name="title"]').value;
-            music.minutes = form.querySelector('input[name="minutes"]').value;
-            music.year = parseInt(form.querySelector('input[name="year"]').value, 10);
-            music.category = form.querySelector('select[name="category"]').value;
-            console.log("Getting music from form:", JSON.stringify(music));
-            return music;
-        }
-
-        function getAllAjax() {
-            $.ajax({
-                url: "/musics",
-                method: "GET",
-                dataType: "JSON",
-                success: function (result) {
-                    for (music of result) {
-                        addMusicToTable(music);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("error: " + status + " msg:" + error);
-                }
-            });
+            const deleteCell = row.insertCell();
+            deleteCell.innerHTML = `<button class="btn btn-sm btn-danger" onclick="doDelete(this)">
+                <i class="bi bi-trash"></i> Delete</button>`;
         }
 
         function createMusicAjax(music) {
@@ -296,7 +162,7 @@
                 url: "/musics",
                 method: "POST",
                 data: JSON.stringify(music),
-                dataType: "JSON",
+                dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
                     music.id = result.id;
@@ -305,48 +171,33 @@
                     showViewAll();
                 },
                 error: function (xhr, status, error) {
-                    console.log("error: " + status + " msg:" + error);
+                    console.error("Error:", status, error);
                 }
             });
         }
 
-        function updateMusicAjax(music) {
+        function getAllAjax() {
             $.ajax({
-                url: "/musics/" + encodeURIComponent(music.id),
-                method: "PUT",
-                data: JSON.stringify(music),
-                dataType: "JSON",
-                contentType: "application/json; charset=utf-8",
+                url: "/musics",
+                method: "GET",
+                dataType: "json",
                 success: function (result) {
-
+                    for (let music of result) {
+                        addMusicToTable(music);
+                    }
                 },
                 error: function (xhr, status, error) {
-                    console.log("error: " + status + " msg:" + error);
+                    console.error("Error:", status, error);
                 }
             });
         }
-
-        function deleteMusicAjax(id) {
-            $.ajax({
-                url: "/musics/" + encodeURIComponent(id),
-                method: "DELETE",
-                dataType: "JSON",
-                contentType: "application/json; charset=utf-8",
-                success: function (result) {
-
-                },
-                error: function (xhr, status, error) {
-                    console.log("error: " + status + " msg:" + error);
-                }
-            });
-        }
-
 
         function cancel() {
             clearForm();
             showViewAll();
         }
 
+        // Load data on page load
         getAllAjax();
     </script>
 </body>
