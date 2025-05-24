@@ -25,7 +25,7 @@ A RESTful API built with Flask for managing a music library. It allows you to **
 
 ### 🌍 Live App
 
-View the public viewer page: 🎵 [https://rodrigodmu.pythonanywhere.com/musicviewer.html](https://rodrigodmu.pythonanywhere.com/musicviewer.html)
+View the public viewer page for `Event Music List`: 🎵 [https://rodrigodmu.pythonanywhere.com/musicviewer.html](https://rodrigodmu.pythonanywhere.com/musicviewer.html)
 *****
 
 #### 🌐 Project Structure
@@ -102,7 +102,10 @@ mysql = {
 ```
 
 ##### 6. Run the application
-The public viewer page can be accessed at: https://rodrigodmu.pythonanywhere.com/musicviewer.html
+   ```bash
+   python server.py
+   ```
+The application viewer page can be accessed at `http://localhost:5000/musicviewer.html`.
 *****
 
 ## Author
