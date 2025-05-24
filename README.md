@@ -23,6 +23,12 @@ A RESTful API built with Flask for managing a music library. It allows you to **
 ![EventMusicListTable](Images/Event_Music_List_Table.png)
 ******
 
+### 🌍 Live App
+
+View the public viewer page:  
+👉 [https://rodrigodmu.pythonanywhere.com/musicviewer.html](https://rodrigodmu.pythonanywhere.com/musicviewer.html)
+*****
+
 #### 🌐 Project Structure
 
 - [`musicviewer.html`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/musicviewer.html): Event playlist public preview page.
@@ -39,25 +45,25 @@ A RESTful API built with Flask for managing a music library. It allows you to **
 #### ⚙️ Setup Instructions
 
 ##### 1. Clone the repository in Pythonanywhere
-```
+```bash
 git clone https://github.com/RodrigoDMU/WSAA_big_project
 cd WSAA_big_project
 ```
 
 ##### 2. Create a virtual environment
-```
+```bash
 python -m venv venv
-source venv/bin/activate 
+source venv/bin/activate # On Windows: venv\Scripts\activate
 ```
 
 ##### 3. Install dependencies
-```
+```bash
 pip install -r requirements.txt
 ```
 
 ##### 4. Set up the MySQL database
 Create a MySQL database and run the following SQL:
-```
+```bash
 CREATE TABLE music (
     id INT AUTO_INCREMENT PRIMARY KEY,
     artist VARCHAR(255) NOT NULL,
@@ -87,7 +93,7 @@ CREATE TABLE music (
 ##### 5. Configure database connection
 The `dbconfig.py` file is included in .gitignore to protect personal informations.
 
-```
+```bash
 mysql = {
     'host': "host",
     'user': "username",
@@ -97,7 +103,7 @@ mysql = {
 ```
 
 ##### 6. Run the application
-The public playlist viewer page can be accessed at: https://rodrigodmu.pythonanywhere.com/musicviewer.html
+The public viewer page can be accessed at: https://rodrigodmu.pythonanywhere.com/musicviewer.html
 *****
 
 ## Author
