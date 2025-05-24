@@ -25,8 +25,7 @@ A RESTful API built with Flask for managing a music library. It allows you to **
 
 ### 🌍 Live App
 
-View the public viewer page:  
-👉 [https://rodrigodmu.pythonanywhere.com/musicviewer.html](https://rodrigodmu.pythonanywhere.com/musicviewer.html)
+View the public viewer page: 🎵 [https://rodrigodmu.pythonanywhere.com/musicviewer.html](https://rodrigodmu.pythonanywhere.com/musicviewer.html)
 *****
 
 #### 🌐 Project Structure
@@ -63,7 +62,7 @@ pip install -r requirements.txt
 
 ##### 4. Set up the MySQL database
 Create a MySQL database and run the following SQL:
-```bash
+```sql
 CREATE TABLE music (
     id INT AUTO_INCREMENT PRIMARY KEY,
     artist VARCHAR(255) NOT NULL,
