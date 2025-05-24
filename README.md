@@ -4,41 +4,44 @@
 ## Web Services and Applications Module
 
 ![Programming](Images/img_programming.jpeg)
-
 ************
 
 ## My Assessment Repository
 
 This repository was created as part of the Web Services and Applications assessment module for the course in the [Higher Diploma in Science in Data Analytics](https://www.atu.ie/courses/higher-diploma-in-science-data-analytics?_gl=1%2A1bcdos0%2A_ga%2AMTE3OTU2MzQ5LjE2OTY2MDYwMzE.%2A_ga_5R02GBYV8V%2AMTcxNDMzOTE2Ni4xMS4xLjE3MTQzMzkyMDAuMC4wLjA.) at [ATU](https://www.atu.ie/). This README has been written with [Github's Documentation On READMEs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) in mind. You can find more about [writing in Mark Down in GitHub's documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+*****
 
 ## Getting Started
 
 This repository contains my [Big Project](https://github.com/RodrigoDMU/WSAA_big_project) submission for the module, showcasing the skills I have developed throughout the course in Web Services and Applications.
+******
 
 ### Big Project - Event Music List
 
 A RESTful API built with Flask for managing a music library. It allows you to **create**, **read**, **update**, and **delete** music entries from a MySQL database.
 
 ![EventMusicListTable](Images/Event_Music_List_Table.png)
+******
 
-#### - Project Structure
+#### 🌐 Project Structure
 
-- `musicviewer.html`: Event playlist public preview page.
+- [`musicviewer.html`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/musicviewer.html): Event playlist public preview page.
 
-- `server.py`: Main Flask app.
+- [`server.py`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/server.py): Main Flask app.
 
-- `musicDAO.py`: Data access logic (CRUD operations).
+- [`musicDAO.py`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/musicDAO.py): Data access logic (CRUD operations).
 
-- `dbconfig.py`: MySQL connection configuration.
+- [`dbconfig.py`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/dbconfig_template.py): MySQL connection configuration.
 
-- `requirements.txt`: Python package dependencies.
+- [`requirements.txt`](https://github.com/RodrigoDMU/WSAA_big_project/blob/main/requirements.txt): Python package dependencies.
+*****
 
-#### - Setup Instructions
+#### ⚙️ Setup Instructions
 
 ##### 1. Clone the repository in Pythonanywhere
 ```
 git clone https://github.com/RodrigoDMU/WSAA_big_project
-cd WSAA_big_project```
+cd WSAA_big_project
 ```
 
 ##### 2. Create a virtual environment
@@ -95,7 +98,6 @@ mysql = {
 
 ##### 6. Run the application
 The public playlist viewer page can be accessed at: https://rodrigodmu.pythonanywhere.com/musicviewer.html
-
 *****
 
 ## Author
