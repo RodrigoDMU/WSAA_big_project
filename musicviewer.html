@@ -1,5 +1,5 @@
 <!-- 
-    - Music Management System
+    - Event Music List Management System
     Author: Rodrigo De Martino Ucedo
 -->
 
@@ -18,10 +18,12 @@
 
 <body>
     <div class="container mt-4">
-        <h1 class="text-center mb-4">List of Musics</h1>
-        <button id="showAddButton" class="btn btn-primary mb-3" onclick="showCreate()">
+        <h1 class="text-center mb-4">Event Music List</h1>
+        <button id="showAddButton" class="btn btn-primary" onclick="showCreate()">
             <i class="bi bi-plus-circle"></i> Add Music
         </button>
+
+        <p class="text-muted small mt-1 mb-3"> Click "Add Music" to add a new music to the Event Music List.</p>
 
         <table class="table table-striped" id="musicTable">
             <thead class="thead-light">
