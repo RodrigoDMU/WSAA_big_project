@@ -23,7 +23,7 @@
             <i class="bi bi-plus-circle"></i> Add Music
         </button>
 
-        <p class="text-muted small mt-1 mb-3"> Click "Add Music" to add a new music to the Event Music List.</p>
+        <p id="addHint" class="text-muted small mt-1 mb-3"> Click "Add Music" to add a new music to the Event Music List.</p>
 
         <table class="table table-striped" id="musicTable">
             <thead class="thead-light">
@@ -116,6 +116,8 @@
             document.getElementById('doCreateButton').style.display = "inline-block";
             document.getElementById('doUpdateButton').style.display = "none";
 
+            document.getElementById('addHint').style.display = "block";
+
             clearForm();
         }
 
@@ -159,6 +161,8 @@
 
             document.getElementById('doCreateButton').style.display = "none";
             document.getElementById('doUpdateButton').style.display = "inline-block";
+
+            document.getElementById('addHint').style.display = "none";
 
             // Get the selected music data from the row
             const row = button.closest('tr');
