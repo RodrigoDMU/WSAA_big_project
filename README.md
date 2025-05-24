@@ -3,7 +3,7 @@
 
 ## Web Services and Applications Module
 
-![Programming](images/img_programming.jpeg)
+![Programming](Images/img_programming.jpeg)
 
 ************
 
@@ -21,19 +21,19 @@ A RESTful API built with Flask for managing a music library. It allows you to **
 
 ![EventMusicListTable](Images/Event_Music_List_Table.png)
 
-![UpdateMusic](Images/Update_Music.png)
+#### - Project Structure
 
-![DeleteMusic](Images/Delete_Music.png)
+- `musicviewer.html`: Event playlist public preview page.
 
-#### Project Structure
+- `server.py`: Main Flask app.
 
-├── musicviewer.html # Event playlist public preview page
-├── server.py # Main Flask app
-├── musicDAO.py # Data access logic (CRUD operations)
-├── dbconfig.py # MySQL connection configuration
-├── requirements.txt # Python package dependencies
+- `musicDAO.py`: Data access logic (CRUD operations).
 
-#### ⚙️ Setup Instructions
+- `dbconfig.py`: MySQL connection configuration.
+
+- `requirements.txt`: Python package dependencies.
+
+#### - Setup Instructions
 
 ##### 1. Clone the repository in Pythonanywhere
 ```
@@ -41,7 +41,7 @@ git clone https://github.com/RodrigoDMU/WSAA_big_project
 cd WSAA_big_project```
 ```
 
-##### 2. (Optional) Create a virtual environment
+##### 2. Create a virtual environment
 ```
 python -m venv venv
 source venv/bin/activate 
@@ -80,19 +80,9 @@ CREATE TABLE music (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
-### - Notes:
-id: Auto-incremented primary key.
-
-artist and title: Text fields, required.
-
-minutes and year: Numeric, optional basic validation with CHECK.
-
-category: Limited to predefined options using ENUM.
-
-created_at: Optional, adds a timestamp of when the row was added.
 
 ##### 5. Configure database connection
-Edit the file dbconfig.py with your own MySQL credentials:
+The `dbconfig.py` file is included in .gitignore to protect personal informations.
 
 ```
 mysql = {
@@ -102,6 +92,7 @@ mysql = {
     'database': "database"
 }
 ```
+
 ##### 6. Run the application
 The public playlist viewer page can be accessed at: https://rodrigodmu.pythonanywhere.com/musicviewer.html
 
